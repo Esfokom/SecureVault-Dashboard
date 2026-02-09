@@ -91,3 +91,19 @@ This is a **hybrid design/engineering challenge**. You are expected to demonstra
     * **Replace** them with your own documentation as outlined in Section 4.
     * *Note: Do not append your docs to the end. The final README should look like a professional project documentation, not a homework assignment.*
 4.  Submit your repo link via the [online](https://forms.office.com/e/G6vaRQxWYM) form.
+
+---
+### ⚠️ CRITICAL: Pre-Submission Checklist
+
+**STOP and review your work.** To be eligible for the Solution Defense interview, your submission **MUST** pass the following "Gatekeeper" checks.
+
+If any of the following are incorrect, your submission will be flagged as incomplete and you will **NOT** be invited for an interview.
+
+1.  **Public Repository:** Is your GitHub repository set to **Public**? (Private links will be auto-rejected).
+2.  **Audit-Ready History:** Does your Git commit history show your progress over time? (Repositories with a single "Initial Commit" or "Upload files" containing the entire project will be **rejected as unverifiable**).
+3.  **Working Deployment:** Have you tested your live link in an **Incognito/Private** window to ensure it loads without errors?
+4.  **No Restricted Libraries:** Did you build your own components? (Submissions using **Bootstrap, Material UI, or Chakra UI** will be disqualified).
+5.  **Design File Access:** Is your Figma/Penpot link included and set to **"Anyone with the link can view"**?
+6.  **Documentation:** Have you deleted the original assignment text from the `README.md` and replaced it with your own project documentation?
+
+> **By submitting your work, you acknowledge that failure to meet these criteria effectively ends your application process.**
