@@ -49,15 +49,6 @@ export default function PropertiesPanel({ selectedItem }: PropertiesPanelProps) 
             </div>
           )}
 
-          <div className="flex justify-between items-center py-2 border-b border-vault-bg-hover">
-            <span className="text-vault-text-secondary">Path depth</span>
-            <span>{selectedItem.depth}</span>
-          </div>
-
-          <div className="flex justify-between items-center py-2">
-            <span className="text-vault-text-secondary">ID</span>
-            <span className="text-vault-text-secondary/70 font-mono text-xs">{selectedItem.id}</span>
-          </div>
         </div>
       </div>
     </div>
