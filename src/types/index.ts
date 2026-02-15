@@ -11,6 +11,7 @@ export interface TreeItemWithMeta extends TreeItem {
   parentId: string | null
   depth: number
   hasChildren: boolean
+  childrenIds: string[]
 }
 
 export interface FlatTreeData {

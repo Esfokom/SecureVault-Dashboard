@@ -18,10 +18,8 @@ export function computeVisibleItems(
     visible.push(id)
 
     if (item.type === 'folder' && expandedFolders.has(id)) {
-      // Get children in their original order
-      const children = Array.from(itemsMap.values()).filter(i => i.parentId === id)
-      for (const child of children) {
-        walk(child.id)
+      for (const childId of item.childrenIds) {
+        walk(childId)
       }
     }
   }

@@ -10,13 +10,15 @@ export function transformTreeData(items: TreeItem[]): FlatTreeData {
   const rootItems: string[] = []
 
   function walk(item: TreeItem, parentId: string | null, depth: number) {
-    const hasChildren = item.type === 'folder' && Array.isArray(item.children) && item.children.length > 0
+    const childrenIds: string[] = item.children?.map(c => c.id) ?? []
+    const hasChildren = item.type === 'folder' && childrenIds.length > 0
 
     const meta: TreeItemWithMeta = {
       ...item,
       parentId,
       depth,
       hasChildren,
+      childrenIds,
     }
 
     itemsMap.set(item.id, meta)

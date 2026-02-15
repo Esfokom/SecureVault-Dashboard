@@ -68,11 +68,9 @@ const TreeNode: React.FC<TreeNodeProps> = React.memo(({
 
   // Get children: during search, only show children in visibleIds
   const children = isFolder && isExpanded
-    ? Array.from(itemsMap.values()).filter(i => {
-        if (i.parentId !== item.id) return false
-        if (isSearchActive && !visibleIds.has(i.id)) return false
-        return true
-      })
+    ? item.childrenIds
+        .map(id => itemsMap.get(id)!)
+        .filter(child => child && (!isSearchActive || visibleIds.has(child.id)))
     : []
 
   const handleClick = () => {

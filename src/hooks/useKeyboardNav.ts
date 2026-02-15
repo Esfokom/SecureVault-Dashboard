@@ -16,16 +16,12 @@ export function useKeyboardNav({
   onToggleFolder,
   onSelectItem,
 }: UseKeyboardNavOptions) {
-  const [focusIndex, setFocusIndex] = useState(0)
+  const [rawFocusIndex, setFocusIndex] = useState(0)
 
-  // Clamp focus index when visible items change (e.g. folder collapsed)
-  useEffect(() => {
-    if (visibleItems.length === 0) {
-      setFocusIndex(0)
-    } else {
-      setFocusIndex(prev => Math.min(prev, visibleItems.length - 1))
-    }
-  }, [visibleItems.length])
+  // Derive clamped index — no effect needed
+  const focusIndex = visibleItems.length === 0
+    ? 0
+    : Math.min(rawFocusIndex, visibleItems.length - 1)
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
@@ -37,15 +33,15 @@ export function useKeyboardNav({
       switch (e.key) {
         case 'ArrowDown':
           e.preventDefault()
-          setFocusIndex(prev =>
-            prev >= visibleItems.length - 1 ? 0 : prev + 1
+          setFocusIndex(
+            focusIndex >= visibleItems.length - 1 ? 0 : focusIndex + 1
           )
           break
 
         case 'ArrowUp':
           e.preventDefault()
-          setFocusIndex(prev =>
-            prev <= 0 ? visibleItems.length - 1 : prev - 1
+          setFocusIndex(
+            focusIndex <= 0 ? visibleItems.length - 1 : focusIndex - 1
           )
           break
 
@@ -81,5 +77,12 @@ export function useKeyboardNav({
 
   const focusedItemId = visibleItems.length > 0 ? visibleItems[focusIndex] ?? null : null
 
-  return { focusedItemId }
+  const setFocusToItem = useCallback((id: string) => {
+    const idx = visibleItems.indexOf(id)
+    if (idx !== -1) {
+      setFocusIndex(idx)
+    }
+  }, [visibleItems])
+
+  return { focusedItemId, setFocusToItem } 
 }

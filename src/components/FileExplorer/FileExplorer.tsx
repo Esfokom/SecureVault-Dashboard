@@ -1,8 +1,7 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import type { TreeItem } from '../../types'
 import { useFileTree } from '../../hooks/useFileTree'
 import { useKeyboardNav } from '../../hooks/useKeyboardNav'
-import { computeVisibleItems } from '../../utils/keyboardNav'
 import SearchBar from '../SearchBar/SearchBar'
 import QuickAccess from '../QuickAccess/QuickAccess'
 import TreeView from '../TreeView/TreeView'
@@ -26,14 +25,10 @@ export default function FileExplorer({ data }: FileExplorerProps) {
     isSearchActive,
     matchingIds,
     visibleIds,
+    visibleNavIds,
     pinnedItems,
     togglePin,
   } = useFileTree(data)
-
-  const visibleItemsList = useMemo(
-    () => computeVisibleItems(rootItems, itemsMap, expandedFolders),
-    [rootItems, itemsMap, expandedFolders]
-  )
 
   // Pinned item IDs (filtered to valid items)
   const pinnedItemIds = useMemo(
@@ -43,23 +38,29 @@ export default function FileExplorer({ data }: FileExplorerProps) {
 
   // Keyboard nav: pinned items first, then tree items (deduplicated)
   const navItems = useMemo(() => {
-    const treeItems = isSearchActive
-      ? visibleItemsList.filter(id => visibleIds.has(id))
-      : visibleItemsList
-
-    // Prepend pinned items, then add tree items excluding already-pinned
     const pinnedSet = new Set(pinnedItemIds)
-    const deduped = treeItems.filter(id => !pinnedSet.has(id))
+    const deduped = visibleNavIds.filter(id => !pinnedSet.has(id))
     return [...pinnedItemIds, ...deduped]
-  }, [isSearchActive, visibleItemsList, visibleIds, pinnedItemIds])
+  }, [visibleNavIds, pinnedItemIds])
 
-  const { focusedItemId } = useKeyboardNav({
+  const { focusedItemId, setFocusToItem } = useKeyboardNav({
     visibleItems: navItems,
     itemsMap,
     expandedFolders,
     onToggleFolder: toggleFolder,
     onSelectItem: selectItem,
   })
+
+  // Wrap select handlers to also sync keyboard focus
+  const handleSelectItem = useCallback((id: string) => {
+    selectItem(id)
+    setFocusToItem(id)
+  }, [selectItem, setFocusToItem])
+
+  const handleSelectAndReveal = useCallback((id: string) => {
+    selectAndRevealItem(id)
+    setFocusToItem(id)
+  }, [selectAndRevealItem, setFocusToItem])
 
   const selectedItem = selectedItemId ? itemsMap.get(selectedItemId) ?? null : null
   const isSelectedPinned = selectedItemId ? pinnedItems.has(selectedItemId) : false
@@ -86,7 +87,7 @@ export default function FileExplorer({ data }: FileExplorerProps) {
             itemsMap={itemsMap}
             selectedItemId={selectedItemId}
             focusedItemId={focusedItemId}
-            onSelectItem={selectAndRevealItem}
+            onSelectItem={handleSelectAndReveal}
             onTogglePin={togglePin}
           />
 
@@ -106,7 +107,7 @@ export default function FileExplorer({ data }: FileExplorerProps) {
               visibleIds={visibleIds}
               pinnedItems={pinnedItems}
               onToggleFolder={toggleFolder}
-              onSelectItem={selectItem}
+              onSelectItem={handleSelectItem}
               onTogglePin={togglePin}
             />
           )}
