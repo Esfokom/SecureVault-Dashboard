@@ -33,7 +33,7 @@ function HighlightedName({ name, query }: { name: string; query: string }) {
   const match = name.slice(idx, idx + query.length)
   const after = name.slice(idx + query.length)
 
-  return (
+  return ( 
     <>
       {before}
       <span className="text-vault-accent font-medium">{match}</span>
@@ -42,16 +42,6 @@ function HighlightedName({ name, query }: { name: string; query: string }) {
   )
 }
 
-/** Inline SVG pin icon */
-function PinIcon({ filled }: { filled: boolean }) {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill={filled ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 17V22" />
-      <path d="M5 17H19L17 11V7H7V11L5 17Z" />
-      <path d="M15 7V4H9V7" />
-    </svg>
-  )
-}
  
 const TreeNode: React.FC<TreeNodeProps> = React.memo(({
   item,
