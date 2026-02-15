@@ -1,6 +1,6 @@
 import type { TreeItem, TreeItemWithMeta, FlatTreeData } from '../types'
 
-const ICON_EXTENSIONS = new Set(['pdf', 'xlsx', 'svg', 'txt', 'docx', 'ttf', 'yaml'])
+const ICON_EXTENSIONS = new Set(['pdf', 'xlsx', 'svg', 'txt', 'docx', 'ttf', 'yaml', 'png'])
 
 /**
  * Recursively flatten nested tree data into a Map for O(1) lookups.
