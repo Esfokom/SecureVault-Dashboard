@@ -10,8 +10,10 @@ interface TreeViewProps {
   searchQuery: string
   matchingIds: Set<string>
   visibleIds: Set<string>
+  pinnedItems: Set<string>
   onToggleFolder: (id: string) => void
   onSelectItem: (id: string) => void
+  onTogglePin: (id: string) => void
 }
 
 export default function TreeView({
@@ -23,12 +25,13 @@ export default function TreeView({
   searchQuery,
   matchingIds,
   visibleIds,
+  pinnedItems,
   onToggleFolder,
   onSelectItem,
+  onTogglePin,
 }: TreeViewProps) {
   const isSearchActive = searchQuery.trim().length > 0
 
-  // During search, only show root items that are in visibleIds
   const displayedRootItems = isSearchActive
     ? rootItems.filter(id => visibleIds.has(id))
     : rootItems
@@ -49,8 +52,10 @@ export default function TreeView({
             searchQuery={searchQuery}
             matchingIds={matchingIds}
             visibleIds={visibleIds}
+            pinnedItems={pinnedItems}
             onToggleFolder={onToggleFolder}
             onSelectItem={onSelectItem}
+            onTogglePin={onTogglePin}
           />
         )
       })}

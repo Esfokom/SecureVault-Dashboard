@@ -11,8 +11,10 @@ interface TreeNodeProps {
   searchQuery: string
   matchingIds: Set<string>
   visibleIds: Set<string>
+  pinnedItems: Set<string>
   onToggleFolder: (id: string) => void
   onSelectItem: (id: string) => void
+  onTogglePin: (id: string) => void
 }
 
 /**
@@ -31,7 +33,7 @@ function HighlightedName({ name, query }: { name: string; query: string }) {
   const match = name.slice(idx, idx + query.length)
   const after = name.slice(idx + query.length)
 
-  return (
+  return ( 
     <>
       {before}
       <span className="text-vault-accent font-medium">{match}</span>
@@ -40,6 +42,7 @@ function HighlightedName({ name, query }: { name: string; query: string }) {
   )
 }
 
+ 
 const TreeNode: React.FC<TreeNodeProps> = React.memo(({
   item,
   itemsMap,
@@ -49,13 +52,16 @@ const TreeNode: React.FC<TreeNodeProps> = React.memo(({
   searchQuery,
   matchingIds,
   visibleIds,
+  pinnedItems,
   onToggleFolder,
   onSelectItem,
+  onTogglePin,
 }) => {
   const isFolder = item.type === 'folder'
   const isExpanded = expandedFolders.has(item.id)
   const isSelected = selectedItemId === item.id
   const isFocused = focusedItemId === item.id
+  const isPinned = pinnedItems.has(item.id)
   const iconPath = getIconPath(item)
   const isSearchActive = searchQuery.trim().length > 0
   const isMatch = matchingIds.has(item.id)
@@ -76,12 +82,17 @@ const TreeNode: React.FC<TreeNodeProps> = React.memo(({
     }
   }
 
+  const handlePinClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    onTogglePin(item.id)
+  }
+
   return (
     <div>
       <div
         className={`
-          flex items-center gap-2 py-1 px-2 cursor-pointer
-          transition-all duration-150 rounded-md mx-1
+          group flex items-center gap-2 py-1 px-2 cursor-pointer
+          transition-all duration-150 rounded-md mx-1 relative
           ${isSelected ? 'bg-vault-accent/20 border-l-2 border-vault-accent' : 'hover:bg-vault-bg-hover border-l-2 border-transparent'}
           ${isFocused ? 'outline outline-2 outline-vault-accent outline-offset-0' : ''}
           ${isSearchActive && !isMatch ? 'opacity-50' : ''}
@@ -107,6 +118,7 @@ const TreeNode: React.FC<TreeNodeProps> = React.memo(({
           className="w-4 h-4 shrink-0"
         />
 
+
         {/* Name */}
         <span className="truncate text-sm select-none">
           <HighlightedName name={item.name} query={searchQuery} />
@@ -114,10 +126,26 @@ const TreeNode: React.FC<TreeNodeProps> = React.memo(({
 
         {/* Size (files only) */}
         {item.size && (
-          <span className="ml-auto text-xs text-vault-text-secondary shrink-0">
+          <span className="ml-auto text-xs text-vault-text-secondary shrink-0 mr-5">
             {item.size}
           </span>
         )}
+
+        {/* Pin button (on hover) */}
+        <button
+          onClick={handlePinClick}
+          className={`
+            absolute right-2 top-1/2 -translate-y-1/2
+            transition-all duration-150 shrink-0
+            ${isPinned
+              ? 'opacity-60 hover:opacity-100'
+              : 'opacity-0 group-hover:opacity-60 hover:!opacity-100'
+            }
+          `}
+          title={isPinned ? 'Unpin' : 'Pin to Quick Access'}
+        >
+          <img src="/office-push-pin.png" alt="" className="w-4 h-4" />
+        </button>
       </div>
 
       {/* Recursive children */}
@@ -134,8 +162,10 @@ const TreeNode: React.FC<TreeNodeProps> = React.memo(({
               searchQuery={searchQuery}
               matchingIds={matchingIds}
               visibleIds={visibleIds}
+              pinnedItems={pinnedItems}
               onToggleFolder={onToggleFolder}
               onSelectItem={onSelectItem}
+              onTogglePin={onTogglePin}
             />
           ))}
         </div>
