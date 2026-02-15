@@ -3,6 +3,15 @@
 A high-performance file explorer interface built for law firms and financial institutions managing complex, deeply-nested file hierarchies. Built with React 19, TypeScript, Tailwind CSS v4, and Vite — zero component libraries.
 
 **🌐 Live Demo:** [secure-vault-dashboard.vercel.app](https://secure-vault-dashboard.vercel.app/)
+**🎨 Design File:** [Figma — SecureVault](https://www.figma.com/design/ceR78WiNCyKB5J1OaYvOIx/SecureVault?node-id=0-1&t=qYstR6weXKH91eMJ-1)
+
+### Screenshots
+
+![Closed folders view](screenshots/closed.png)
+
+![Expanded tree view](screenshots/open.png)
+
+![Search and filter](screenshots/search.png)
 
 ---
 
