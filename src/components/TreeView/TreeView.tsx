@@ -6,6 +6,7 @@ interface TreeViewProps {
   itemsMap: Map<string, TreeItemWithMeta>
   expandedFolders: Set<string>
   selectedItemId: string | null
+  focusedItemId: string | null
   onToggleFolder: (id: string) => void
   onSelectItem: (id: string) => void
 }
@@ -15,6 +16,7 @@ export default function TreeView({
   itemsMap,
   expandedFolders,
   selectedItemId,
+  focusedItemId,
   onToggleFolder,
   onSelectItem,
 }: TreeViewProps) {
@@ -30,6 +32,7 @@ export default function TreeView({
             itemsMap={itemsMap}
             expandedFolders={expandedFolders}
             selectedItemId={selectedItemId}
+            focusedItemId={focusedItemId}
             onToggleFolder={onToggleFolder}
             onSelectItem={onSelectItem}
           />

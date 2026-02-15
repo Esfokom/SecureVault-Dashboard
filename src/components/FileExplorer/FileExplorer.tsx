@@ -1,5 +1,8 @@
+import { useMemo } from 'react'
 import type { TreeItem } from '../../types'
 import { useFileTree } from '../../hooks/useFileTree'
+import { useKeyboardNav } from '../../hooks/useKeyboardNav'
+import { computeVisibleItems } from '../../utils/keyboardNav'
 import TreeView from '../TreeView/TreeView'
 import PropertiesPanel from '../PropertiesPanel/PropertiesPanel'
 
@@ -8,7 +11,7 @@ interface FileExplorerProps {
 }
 
 export default function FileExplorer({ data }: FileExplorerProps) {
-  const {
+  const { 
     itemsMap,
     rootItems,
     expandedFolders,
@@ -16,6 +19,19 @@ export default function FileExplorer({ data }: FileExplorerProps) {
     toggleFolder,
     selectItem,
   } = useFileTree(data)
+
+  const visibleItems = useMemo(
+    () => computeVisibleItems(rootItems, itemsMap, expandedFolders),
+    [rootItems, itemsMap, expandedFolders]
+  )
+
+  const { focusedItemId } = useKeyboardNav({
+    visibleItems,
+    itemsMap,
+    expandedFolders,
+    onToggleFolder: toggleFolder,
+    onSelectItem: selectItem,
+  })
 
   const selectedItem = selectedItemId ? itemsMap.get(selectedItemId) ?? null : null
 
@@ -28,12 +44,13 @@ export default function FileExplorer({ data }: FileExplorerProps) {
           itemsMap={itemsMap}
           expandedFolders={expandedFolders}
           selectedItemId={selectedItemId}
+          focusedItemId={focusedItemId}
           onToggleFolder={toggleFolder}
           onSelectItem={selectItem}
         />
       </div>
 
-      {/* Properties Panel */} 
+      {/* Properties Panel */}
       <div className="w-2/5 overflow-y-auto">
         <PropertiesPanel selectedItem={selectedItem} />
       </div>
