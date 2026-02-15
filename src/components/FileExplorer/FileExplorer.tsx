@@ -66,8 +66,15 @@ export default function FileExplorer({ data }: FileExplorerProps) {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      {/* Search Bar - full width */}
-      <SearchBar value={searchQuery} onChange={setSearchQuery} />
+      {/* Header: Title + Search Bar on same row */}
+      <div className="h-16 bg-vault-bg-secondary border-b border-vault-bg-hover px-6 flex items-center shrink-0 gap-4">
+        <h1 className="text-xl font-bold flex items-center gap-2 shrink-0">
+          <img src="/sv-logo.png" alt="SecureVault" className="w-7 h-7" /> SecureVault
+        </h1>
+        <div className="flex-1 max-w-md ml-auto">
+          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        </div>
+      </div>
 
       {/* Content: Tree + Properties */}
       <div className="flex flex-1 overflow-hidden">

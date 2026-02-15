@@ -1,6 +1,8 @@
-# 🔒 SecureVault Dashboard
+<h1><img src="public/sv-logo.png" alt="SecureVault Logo" width="36" style="vertical-align: middle;" /> SecureVault Dashboard</h1>
 
 A high-performance file explorer interface built for law firms and financial institutions managing complex, deeply-nested file hierarchies. Built with React 19, TypeScript, Tailwind CSS v4, and Vite — zero component libraries.
+
+**🌐 Live Demo:** [secure-vault-dashboard.vercel.app](https://secure-vault-dashboard.vercel.app/)
 
 ---
 
@@ -148,6 +150,24 @@ When a pinned item is clicked in Quick Access, `selectAndRevealItem()` expands a
 ---
 
 ## 🎨 Design System
+
+### Typography
+
+**Font Family:** [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) — loaded from Google Fonts
+
+| Role  | Size | Weight          | Usage                                       |
+| ----- | ---- | --------------- | ------------------------------------------- |
+| H1    | 24px | Bold (700)      | Page title, header                          |
+| H2    | 18px | Bold (700)      | Section headings (Properties, Quick Access) |
+| H3    | 16px | Semi-bold (600) | Sub-section labels                          |
+| Body  | 14px | Regular (400)   | Tree item names, descriptions               |
+| Small | 12px | Regular (400)   | File sizes, metadata, labels                |
+
+**Weight Variations:**
+
+- **Regular (400)** — Body text, tree items, metadata
+- **Medium (500)** — Search match highlights, buttons
+- **Bold (700)** — Headings, branding
 
 ### Color Palette (Dark Mode)
 
