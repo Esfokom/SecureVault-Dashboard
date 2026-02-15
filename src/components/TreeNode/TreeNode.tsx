@@ -41,7 +41,7 @@ const TreeNode: React.FC<TreeNodeProps> = React.memo(({
         className={`
           flex items-center gap-2 py-1 px-2 cursor-pointer
           transition-all duration-150 rounded-md mx-1
-          ${isSelected ? 'bg-vault-accent/20' : 'hover:bg-vault-bg-hover'}
+          ${isSelected ? 'bg-vault-accent/20 border-l-2 border-vault-accent' : 'hover:bg-vault-bg-hover border-l-2 border-transparent'}
         `}
         style={{ paddingLeft: `${item.depth * 24 + 8}px` }}
         onClick={handleClick}
